@@ -6,7 +6,10 @@
  * @author     Michael Pfitzner
  */
 
-require_once('base.php');
+if (!class_exists('Base'))
+{
+  exit;
+}
 
 class Rating extends Base {
     const ALL_RATING_ID = "cops:rating";

@@ -6,7 +6,10 @@
  * @author     At Libitum <eljarec@yahoo.com>
  */
 
-require_once('base.php');
+if (!class_exists('Base'))
+{
+  exit;
+}
 
 class Publisher extends Base {
     const ALL_PUBLISHERS_ID = "cops:publishers";

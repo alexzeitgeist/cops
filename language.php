@@ -6,7 +6,10 @@
  * @author     Sébastien Lucas <sebastien@slucas.fr>
  */
 
-require_once('base.php');
+if (!class_exists('Base'))
+{
+  exit;
+}
 
 class language extends Base {
     const ALL_LANGUAGES_ID = "cops:languages";

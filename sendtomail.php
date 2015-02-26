@@ -1,8 +1,8 @@
 <?php
 
-require_once ("config.php");
-require_once "resources/PHPMailer/class.phpmailer.php";
-require_once "book.php";
+require('config.php');
+require('resources/PHPMailer/class.phpmailer.php');
+require('book.php');
 
 function checkConfiguration () {
     global $config;

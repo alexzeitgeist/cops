@@ -5,12 +5,12 @@
  * COPS (Calibre OPDS PHP Server) Configuration check
  *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * @author     Sébastien Lucas <sebastien@slucas.fr>
+ * @author     SÃ©bastien Lucas <sebastien@slucas.fr>
  *
  */
 
-    require_once ("config.php");
-    require_once ("base.php");
+    require('config.php');
+    require('base.php');
 
     header ("Content-Type:text/html; charset=UTF-8");
 

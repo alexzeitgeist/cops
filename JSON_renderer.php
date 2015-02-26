@@ -6,8 +6,7 @@
  * @author     Sébastien Lucas <sebastien@slucas.fr>
  */
 
-require_once ("base.php");
-require_once ("book.php");
+require_once('book.php');
 
 class JSONRenderer
 {

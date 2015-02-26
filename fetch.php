@@ -6,9 +6,8 @@
  * @author     Sébastien Lucas <sebastien@slucas.fr>
  */
 
-    require_once ("config.php");
-    require_once ("book.php");
-    require_once ("data.php");
+    require('config.php');
+    require('book.php');
 
     global $config;
 

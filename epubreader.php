@@ -8,10 +8,8 @@
  * @author     Sébastien Lucas <sebastien@slucas.fr>
  */
 
-require_once ("config.php");
-require_once ("base.php");
-require_once ("book.php");
-require_once ("resources/php-epub-meta/epub.php");
+require('config.php');
+require('book.php');
 
 header ("Content-Type: text/html;charset=utf-8");
 

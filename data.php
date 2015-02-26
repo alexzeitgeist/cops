@@ -6,7 +6,10 @@
  * @author     Sébastien Lucas <sebastien@slucas.fr>
  */
 
-require_once('base.php');
+if (!class_exists('Base'))
+{
+  exit;
+}
 
 class Data extends Base {
     public $id;

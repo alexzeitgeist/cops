@@ -6,9 +6,9 @@
  * @author     Sébastien Lucas <sebastien@slucas.fr>
  */
 
-require_once 'config_default.php';
+require('config_default.php');
 if (file_exists(dirname(__FILE__) . '/config_local.php') && (php_sapi_name() !== 'cli')) {
-    require_once 'config_local.php';
+    require('config_local.php');
 }
 
 $remote_user = array_key_exists('PHP_AUTH_USER', $_SERVER) ? $_SERVER['PHP_AUTH_USER'] : '';
@@ -16,7 +16,7 @@ $remote_user = array_key_exists('PHP_AUTH_USER', $_SERVER) ? $_SERVER['PHP_AUTH_
 $remote_user = preg_replace( "/[^a-zA-Z0-9_-]/", "", $remote_user);
 $user_config_file = 'config_local.' . $remote_user . '.php';
 if (file_exists(dirname(__FILE__) . '/' . $user_config_file) && (php_sapi_name() !== 'cli')) {
-    require_once $user_config_file;
+    require("$user_config_file");
 }
 
 if(!is_null($config['cops_basic_authentication']) &&

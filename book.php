@@ -6,16 +6,16 @@
  * @author     Sébastien Lucas <sebastien@slucas.fr>
  */
 
-require_once('base.php');
-require_once('serie.php');
-require_once('author.php');
-require_once('rating.php');
-require_once('publisher.php');
-require_once('tag.php');
-require_once('language.php');
-require_once("customcolumn.php");
-require_once('data.php');
-require_once('resources/php-epub-meta/epub.php');
+require('base.php');
+require('serie.php');
+require('author.php');
+require('rating.php');
+require('publisher.php');
+require('tag.php');
+require('language.php');
+require('customcolumn.php');
+require('data.php');
+require('resources/php-epub-meta/epub.php');
 
 // Silly thing because PHP forbid string concatenation in class const
 define ('SQL_BOOKS_LEFT_JOIN', "left outer join comments on comments.book = books.id
