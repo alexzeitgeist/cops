@@ -45,7 +45,7 @@ define ('SQL_BOOKS_QUERY', "select {0} from books " . SQL_BOOKS_LEFT_JOIN . "
                                                     exists (select null from publishers, books_publishers_link where book = books.id and books_publishers_link.publisher = publishers.id and publishers.name like ?) or
                                                     title like ?) {1} order by books.sort");
 define ('SQL_BOOKS_RECENT', "select {0} from books " . SQL_BOOKS_LEFT_JOIN . "
-                                                    where 1=1 {1} order by timestamp desc limit ");
+                                                    where 1=1 {1} order by timestamp desc");
 define ('SQL_BOOKS_BY_RATING', "select {0} from books " . SQL_BOOKS_LEFT_JOIN . "
                                                     where books_ratings_link.book = books.id and ratings.id = ? {1} order by sort");
 
@@ -441,13 +441,11 @@ class Book extends Base {
                           str_format (localize ("allbooks.alphabetical", $nBooks), $nBooks), "text",
                           array ( new LinkNavigation ("?page=".parent::PAGE_ALL_BOOKS)), "", $nBooks);
         array_push ($result, $entry);
-        if ($config['cops_recentbooks_limit'] > 0) {
-            $entry = new Entry (localize ("recent.title"),
-                              self::ALL_RECENT_BOOKS_ID,
-                              str_format (localize ("recent.list"), $config['cops_recentbooks_limit']), "text",
-                              array ( new LinkNavigation ("?page=".parent::PAGE_ALL_RECENT_BOOKS)), "", $config['cops_recentbooks_limit']);
-            array_push ($result, $entry);
-        }
+        $entry = new Entry (localize ("recent.title"),
+                          self::ALL_RECENT_BOOKS_ID,
+                          str_format (localize ("recent.list", $nBooks), $nBooks), "text",
+                          array ( new LinkNavigation ("?page=".parent::PAGE_ALL_RECENT_BOOKS)), "", $nBooks);
+        array_push ($result, $entry);
         return $result;
     }
 
@@ -569,10 +567,8 @@ order by substr (upper (sort), 1, 1)", "substr (upper (sort), 1, 1) as title, co
     }
 
 
-    public static function getAllRecentBooks() {
-        global $config;
-        list ($entryArray, ) = self::getEntryArray (self::SQL_BOOKS_RECENT . $config['cops_recentbooks_limit'], array (), -1);
-        return $entryArray;
+    public static function getAllRecentBooks($n, $database = NULL, $numberPerPage = NULL) {
+        return self::getEntryArray (self::SQL_BOOKS_RECENT, array (), $n, $database, $numberPerPage);
     }
 
 }
