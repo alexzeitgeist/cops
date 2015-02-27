@@ -91,13 +91,6 @@ function getURLParam ($name, $default = NULL) {
 
 function getCurrentOption ($option) {
     global $config;
-    if (isset($_COOKIE[$option])) {
-        if (isset($config ["cops_" . $option]) && is_array ($config ["cops_" . $option])) {
-            return explode (",", $_COOKIE[$option]);
-        } else {
-            return $_COOKIE[$option];
-        }
-    }
     if ($option == "style") {
         return "default";
     }
