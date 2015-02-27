@@ -13,7 +13,11 @@ date_default_timezone_set($config['default_timezone']);
 
 function useServerSideRendering () {
     global $config;
-    return preg_match("/" . $config['cops_server_side_render'] . "/", $_SERVER['HTTP_USER_AGENT']);
+    if (isset($config['cops_force_serverside']) AND $config['cops_force_serverside'] == '1') {
+        return true;
+    } else {
+        return preg_match("/" . $config['cops_server_side_render'] . "/", $_SERVER['HTTP_USER_AGENT']);
+    }
 }
 
 function serverSideRender ($data) {
