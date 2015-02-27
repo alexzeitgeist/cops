@@ -63,8 +63,28 @@ function notFound () {
 }
 
 function getURLParam ($name, $default = NULL) {
+	$whitelist = array( 'complete' => FILTER_SANITIZE_NUMBER_INT,
+                        'custom' => FILTER_SANITIZE_STRING,
+                        'data' => FILTER_SANITIZE_NUMBER_INT,
+                        'db' => FILTER_SANITIZE_STRING,
+                        'email' => FILTER_SANITIZE_EMAIL,
+                        'full' => FILTER_SANITIZE_NUMBER_INT,
+                        'height' => FILTER_SANITIZE_NUMBER_INT,
+                        'id' => FILTER_SANITIZE_STRING,
+                        'n' => FILTER_SANITIZE_NUMBER_INT,
+                        'page' => FILTER_SANITIZE_NUMBER_INT,
+                        'query' => FILTER_SANITIZE_STRING,
+                        'scope' => FILTER_SANITIZE_STRING,
+                        'search' => FILTER_SANITIZE_NUMBER_INT,
+                        'tag' => FILTER_SANITIZE_STRING,
+                        'type' => FILTER_SANITIZE_STRING,
+                        'width' => FILTER_SANITIZE_NUMBER_INT,
+    );
     if (!empty ($_GET) && isset($_GET[$name]) && $_GET[$name] != "") {
-        return $_GET[$name];
+        if (isset($whitelist[$name])) {
+            $filtered = filter_input(INPUT_GET, $name, $whitelist[$name]);
+            return $filtered ? $filtered : $default;
+        }
     }
     return $default;
 }
