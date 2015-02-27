@@ -317,7 +317,7 @@ function localize($phrase, $count=-1, $reset=false) {
 
         /* Clean the array of all unfinished translations */
         foreach (array_keys ($translations) as $key) {
-            if (preg_match ("/^##TODO##/", $key)) {
+            if ((strpos ($key, "##TODO##")) === 0) {
                 unset ($translations [$key]);
             }
         }
