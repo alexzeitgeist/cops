@@ -52,21 +52,37 @@ class JSONRenderer
             $mrvn = strtolower($variant->name);
         }
 
+        $uploader = $book->getUploader ();
+        if (is_null ($uploader)) {
+            $mrun = "";
+        } else {
+            $mrun = $uploader->name;
+        }
+
+        $update = $book->getLastUpdate ();
+        if (is_null ($update)) {
+            $mrlun = "";
+        } else {
+            $mrlun = date ("d M Y", strtotime ($update->name));
+        }
+
         return array ("id" => $book->id,
                       "hasCover" => $book->hasCover,
                       "preferedData" => $preferedData,
-                      "rating" => $book->getRating (),
-                      "publisherName" => $pn,
-                      "publisherurl" => $pu,
-                      "pubDate" => $book->getPubDate (),
+                      // "rating" => $book->getRating (),
+                      // "publisherName" => $pn,
+                      // "publisherurl" => $pu,
+                      // "pubDate" => $book->getPubDate (),
                       "languagesName" => $book->getLanguages (),
                       "authorsName" => $book->getAuthorsName (),
-                      "tagsName" => $book->getTagsName (),
-                      "seriesName" => $sn,
-                      "seriesIndex" => $book->seriesIndex,
-                      "seriesCompleteName" => $scn,
-                      "seriesurl" => $su,
-                      "variant" => $mrvn);
+                      // "tagsName" => $book->getTagsName (),
+                      // "seriesName" => $sn,
+                      // "seriesIndex" => $book->seriesIndex,
+                      // "seriesCompleteName" => $scn,
+                      // "seriesurl" => $su,
+                      "variant" => $mrvn,
+                      "uploader" => $mrun,
+                      "lastUpdate" => $mrlun);
     }
 
     public static function getFullBookContentArray ($book) {
@@ -153,7 +169,9 @@ class JSONRenderer
                            "contentTitle" => localize("content.summary"),
                            "sortorderAsc" => localize("search.sortorder.asc"),
                            "sortorderDesc" => localize("search.sortorder.desc"),
-                           "customizeEmail" => localize("customize.email")),
+                           "customizeEmail" => localize("customize.email"),
+                           "uploaderTitle" => localize("uploader.title"),
+                           "lastUpdate" => localize("update.title")),
                        "url" => array (
                            "detailUrl" => "index.php?page=13&id={0}&db={1}",
                            "coverUrl" => "fetch.php?id={0}&db={1}",

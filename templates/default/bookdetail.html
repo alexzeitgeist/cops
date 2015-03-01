@@ -53,6 +53,16 @@
         <h3>{{=it.c.i18n.languagesTitle}}: </h3>{{=it.book.languagesName}}
     </p>
     {{?}}
+    {{? it.book.uploader != ""}}
+    <p class="popupless">
+        <h3>{{=it.c.i18n.uploaderTitle}}: </h3>{{=it.book.uploader}}
+    </p>
+    {{?}}
+    {{? it.book.lastUpdate != ""}}
+    <p class="popupless">
+        <h3>{{=it.c.i18n.lastUpdate}}: </h3>{{=it.book.lastUpdate}}
+    </p>
+    {{?}}
     {{? it.book.content != ""}}
     <br />
     <h4>{{=it.c.i18n.contentTitle}}</h4>
