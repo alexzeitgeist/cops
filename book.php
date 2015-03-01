@@ -16,6 +16,7 @@ require('language.php');
 require('customcolumn.php');
 require('data.php');
 require('resources/php-epub-meta/epub.php');
+require('mobileread.php');
 
 // Silly thing because PHP forbid string concatenation in class const
 define ('SQL_BOOKS_LEFT_JOIN', "left outer join comments on comments.book = books.id
@@ -88,6 +89,12 @@ class Book extends Base {
     public $tags = NULL;
     public $languages = NULL;
     public $format = array ();
+    public $attachment = NULL;
+    public $thread = NULL;
+    public $uploader = NULL;
+    public $variant = NULL;
+    public $threadTitle = NULL;
+    public $lastUpdate = NULL;
 
 
     public function __construct($line) {
@@ -204,6 +211,48 @@ class Book extends Base {
             $this->datas = Data::getDataByBook ($this);
         }
         return $this->datas;
+    }
+
+    public function getAttachment () {
+        if (is_null ($this->attachment)) {
+            $this->attachment = MobileReadAttachment::getAttachmentByBookId ($this->id);
+        }
+        return $this->attachment;
+    }
+
+    public function getThread () {
+        if (is_null ($this->thread)) {
+            $this->thread = MobileReadThread::getThreadByBookId ($this->id);
+        }
+        return $this->thread;
+    }
+
+    public function getUploader () {
+        if (is_null ($this->uploader)) {
+            $this->uploader = MobileReadUploader::getUploaderByBookId ($this->id);
+        }
+        return $this->uploader;
+    }
+
+    public function getVariant () {
+        if (is_null ($this->variant)) {
+            $this->variant = MobileReadVariant::getVariantByBookId ($this->id);
+        }
+        return $this->variant;
+    }
+
+    public function getThreadTitle () {
+        if (is_null ($this->threadTitle)) {
+            $this->threadTitle = MobileReadTitle::getTitleByBookId ($this->id);
+        }
+        return $this->threadTitle;
+    }
+
+    public function getLastUpdate () {
+        if (is_null ($this->lastUpdate)) {
+            $this->lastUpdate = MobileReadLastUpdate::getLastUpdateByBookId ($this->id);
+        }
+        return $this->lastUpdate;
     }
 
     /* End of other class (author, series, tag, ...) initialization and accessors */
