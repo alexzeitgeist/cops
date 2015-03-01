@@ -33,7 +33,7 @@
             <a class="fancydetail" href="{{=str_format (it.c.url.detailUrl, entry.book.id, it.databaseId)}}" {{=it.c.config.kindleHack}}>
             <div class="fullclickpopup">
                 <h2><span class="st">{{=htmlspecialchars (entry.title)}}</span>
-                {{? entry.book.pubDate != ""}}<span class="sp">({{=entry.book.pubDate}})</span>{{?}}
+                {{? entry.book.variant != ""}}<span class="sp">({{=entry.book.variant}})</span>{{?}}
                 {{? entry.book.rating != ""}}<span class="sr">{{=entry.book.rating}}</span>{{?}}
                 </h2>
                 <h4>{{=it.c.i18n.authorsTitle}} : </h4><span class="sa">{{=htmlspecialchars (entry.book.authorsName)}}</span><br />

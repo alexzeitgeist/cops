@@ -45,6 +45,13 @@ class JSONRenderer
             $su = $link->hrefXhtml ();
         }
 
+        $variant = $book->getVariant ();
+        if (is_null ($variant)) {
+            $mrvn = "";
+        } else {
+            $mrvn = strtolower($variant->name);
+        }
+
         return array ("id" => $book->id,
                       "hasCover" => $book->hasCover,
                       "preferedData" => $preferedData,
@@ -58,7 +65,8 @@ class JSONRenderer
                       "seriesName" => $sn,
                       "seriesIndex" => $book->seriesIndex,
                       "seriesCompleteName" => $scn,
-                      "seriesurl" => $su);
+                      "seriesurl" => $su,
+                      "variant" => $mrvn);
     }
 
     public static function getFullBookContentArray ($book) {
