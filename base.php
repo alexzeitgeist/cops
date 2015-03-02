@@ -304,7 +304,7 @@ function localize($phrase, $count=-1, $reset=false) {
         $translations = NULL;
     }
     /* If no instance of $translations has occured load the language file */
-    if (is_null($translations)) {
+    if ($translations === NULL) {
         $lang_file_en = NULL;
         list ($lang, $lang_file) = getLangAndTranslationFile();
         if ($lang != "en") {
@@ -328,7 +328,7 @@ function localize($phrase, $count=-1, $reset=false) {
             $translations = array_merge ($translations_en, $translations);
         }
     }
-    if (array_key_exists ($phrase, $translations)) {
+    if (isset ($translations[$phrase]) || array_key_exists ($phrase, $translations)) {
         return $translations[$phrase];
     }
     return $phrase;
