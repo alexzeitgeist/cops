@@ -160,6 +160,7 @@ class Book extends Base {
     }
 
     public function getSerie () {
+        return NULL;
         if (is_null ($this->serie)) {
             $this->serie = Serie::getSerieByBookId ($this->id);
         }
