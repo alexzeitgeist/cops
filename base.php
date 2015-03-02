@@ -63,7 +63,7 @@ function notFound () {
 }
 
 function getURLParam ($name, $default = NULL) {
-	$whitelist = array( 'complete' => FILTER_SANITIZE_NUMBER_INT,
+    static $whitelist = array( 'complete' => FILTER_SANITIZE_NUMBER_INT,
                         'custom' => FILTER_SANITIZE_NUMBER_INT,
                         'data' => FILTER_SANITIZE_NUMBER_INT,
                         'db' => FILTER_SANITIZE_STRING,
