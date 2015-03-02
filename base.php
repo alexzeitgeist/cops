@@ -308,12 +308,6 @@ function localize($phrase, $count=-1, $reset=false) {
         /* Load the language file as a JSON object and transform it into an associative array */
         $translations = json_decode($lang_file_content, true);
 
-        /* Clean the array of all unfinished translations */
-        foreach (array_keys ($translations) as $key) {
-            if ((strpos ($key, "##TODO##")) === 0) {
-                unset ($translations [$key]);
-            }
-        }
         if ($lang_file_en)
         {
             $lang_file_content = file_get_contents($lang_file_en);
