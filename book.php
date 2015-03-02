@@ -183,6 +183,7 @@ class Book extends Base {
     }
 
     public function getTags () {
+        return array();
         if (is_null ($this->tags)) {
             $this->tags = array ();
 
