@@ -19,9 +19,7 @@ require('resources/php-epub-meta/epub.php');
 require('mobileread.php');
 
 // Silly thing because PHP forbid string concatenation in class const
-define ('SQL_BOOKS_LEFT_JOIN', "left outer join comments on comments.book = books.id
-                                left outer join books_ratings_link on books_ratings_link.book = books.id
-                                left outer join ratings on books_ratings_link.rating = ratings.id ");
+define ('SQL_BOOKS_LEFT_JOIN', "left outer join comments on comments.book = books.id ");
 define ('SQL_BOOKS_ALL', "select {0} from books " . SQL_BOOKS_LEFT_JOIN . " order by books.sort ");
 define ('SQL_BOOKS_BY_PUBLISHER', "select {0} from books_publishers_link, books " . SQL_BOOKS_LEFT_JOIN . "
                                                     where books_publishers_link.book = books.id and publisher = ? {1} order by publisher");
@@ -54,7 +52,7 @@ class Book extends Base {
     const ALL_BOOKS_UUID = "urn:uuid";
     const ALL_BOOKS_ID = "cops:books";
     const ALL_RECENT_BOOKS_ID = "cops:recentbooks";
-    const BOOK_COLUMNS = "books.id as id, books.title as title, text as comment, path, timestamp, pubdate, series_index, uuid, has_cover, ratings.rating";
+    const BOOK_COLUMNS = "books.id as id, books.title as title, text as comment, path, timestamp, pubdate, series_index, uuid, has_cover, NULL as rating";
 
     const SQL_BOOKS_LEFT_JOIN = SQL_BOOKS_LEFT_JOIN;
     const SQL_BOOKS_ALL = SQL_BOOKS_ALL;
