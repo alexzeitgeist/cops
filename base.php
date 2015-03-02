@@ -80,8 +80,15 @@ function getURLParam ($name, $default = NULL) {
                         'type' => FILTER_SANITIZE_STRING,
                         'width' => FILTER_SANITIZE_NUMBER_INT,
     );
+    static $blacklist = array( 'tag' => false,
+                        'db' => false,
+    );
+
     if (!empty ($_GET) && isset($_GET[$name]) && $_GET[$name] != "") {
-        if (isset($whitelist[$name])) {
+        if (isset($blacklist[$name])) {
+            return $default;
+        }
+        elseif (isset($whitelist[$name])) {
             $filtered = filter_input(INPUT_GET, $name, $whitelist[$name]);
             return $filtered ? $filtered : $default;
         }
