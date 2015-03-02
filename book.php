@@ -153,6 +153,7 @@ class Book extends Base {
     }
 
     public function getPublisher () {
+        return NULL;
         if (is_null ($this->publisher)) {
             $this->publisher = Publisher::getPublisherByBookId ($this->id);
         }
