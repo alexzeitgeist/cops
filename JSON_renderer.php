@@ -57,6 +57,8 @@ class JSONRenderer
             $mrun = "";
         } else {
             $mrun = $uploader->name;
+            $link = new LinkNavigation ($uploader->getUri ());
+            $mruu = $link->hrefXhtml ();
         }
 
         $update = $book->getLastUpdate ();
@@ -82,6 +84,7 @@ class JSONRenderer
                       // "seriesurl" => $su,
                       "variant" => $mrvn,
                       "uploader" => $mrun,
+                      "uploaderurl" => $mruu,
                       "lastUpdate" => $mrlun);
     }
 

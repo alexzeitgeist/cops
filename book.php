@@ -47,6 +47,8 @@ define ('SQL_BOOKS_RECENT', "select {0} from books " . SQL_BOOKS_LEFT_JOIN . "
                                                     where 1=1 {1} order by timestamp desc");
 define ('SQL_BOOKS_BY_RATING', "select {0} from books " . SQL_BOOKS_LEFT_JOIN . "
                                                     where books_ratings_link.book = books.id and ratings.id = ? {1} order by sort");
+define ('SQL_BOOKS_BY_UPLOADER', "select {0} from books_custom_column_4_link, books " . SQL_BOOKS_LEFT_JOIN . "
+                                                    where books_custom_column_4_link.book = books.id and books_custom_column_4_link.value = ? {1} order by sort");
 
 class Book extends Base {
     const ALL_BOOKS_UUID = "urn:uuid";
@@ -66,6 +68,7 @@ class Book extends Base {
     const SQL_BOOKS_QUERY = SQL_BOOKS_QUERY;
     const SQL_BOOKS_RECENT = SQL_BOOKS_RECENT;
     const SQL_BOOKS_BY_RATING = SQL_BOOKS_BY_RATING;
+    const SQL_BOOKS_BY_UPLOADER = SQL_BOOKS_BY_UPLOADER;
 
     const BAD_SEARCH = "QQQQQ";
 
@@ -463,6 +466,11 @@ class Book extends Base {
             array_push ($linkArray, new LinkNavigation ($author->getUri (), "related", str_format (localize ("bookentry.author"), localize ("splitByLetter.book.other"), $author->name)));
         }
 
+        $uploader = $this->getUploader ();
+        if (!is_null ($uploader)) {
+            array_push ($linkArray, new LinkNavigation ($uploader->getUri (), "related", str_format (localize ("bookentry.uploader"), localize ("splitByLetter.upload.other"), $uploader->name)));
+        }
+
         $serie = $this->getSerie ();
         if (!is_null ($serie)) {
             array_push ($linkArray, new LinkNavigation ($serie->getUri (), "related", str_format (localize ("content.series.data"), $this->seriesIndex, $serie->name)));
@@ -621,4 +629,7 @@ order by substr (upper (sort), 1, 1)", "substr (upper (sort), 1, 1) as title, co
         return self::getEntryArray (self::SQL_BOOKS_RECENT, array (), $n, $database, $numberPerPage);
     }
 
+    public static function getBooksByUploader($uploaderId, $n) {
+        return self::getEntryArray (self::SQL_BOOKS_BY_UPLOADER, array ($uploaderId), $n);
+    }
 }

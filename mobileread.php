@@ -50,12 +50,31 @@ where books_custom_column_3_link.book = ?');
 }
 
 class MobileReadUploader extends Base {
+    const ALL_UPLOADERS_ID = "cops:mruploaders";
+
+    const UPLOADER_COLUMNS = "custom_column_4.id, custom_column_4.value as name, count(*) as count";
+
     public $id;
     public $name;
 
     public function __construct($post) {
         $this->id = $post->id;
         $this->name = $post->name;
+    }
+
+    public function getUri () {
+        return "?page=".parent::PAGE_UPLOADER_DETAIL."&id=$this->id";
+    }
+
+    public function getEntryId () {
+        return self::ALL_UPLOADERS_ID.":".$this->id;
+    }
+
+    public static function getUploaderById ($uploaderId) {
+        $result = parent::getDb ()->prepare('select ' . self::UPLOADER_COLUMNS . ' from custom_column_4 where id = ?');
+        $result->execute (array ($uploaderId));
+        $post = $result->fetchObject ();
+        return new MobileReadUploader ($post);
     }
 
     public static function getUploaderByBookId ($bookId) {

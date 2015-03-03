@@ -634,6 +634,8 @@ class Page
                 return new PageAbout ($id, $query, $n);
             // case Base::PAGE_CUSTOMIZE :
             //     return new PageCustomize ($id, $query, $n);
+            case Base::PAGE_UPLOADER_DETAIL :
+                return new PageUploaderDetail ($id, $query, $n);
             default:
                 $page = new Page ($id, $query, $n);
                 $page->idPage = "cops:catalog";
@@ -1212,6 +1214,17 @@ class PageCustomize extends Page
     }
 }
 
+class PageUploaderDetail extends Page
+{
+    public function InitializeContent ()
+    {
+        $uploader = MobileReadUploader::getUploaderById ($this->idGet);
+        $this->idPage = $uploader->getEntryId ();
+        $this->title = str_format (localize ("bookentry.uploader"), localize ("uploads.title"), $uploader->name);
+        list ($this->entryArray, $this->totalNumber) = Book::getBooksByUploader ($this->idGet, $this->n);
+    }
+}
+
 
 abstract class Base
 {
@@ -1239,6 +1252,8 @@ abstract class Base
     const PAGE_PUBLISHER_DETAIL = "21";
     const PAGE_ALL_RATINGS = "22";
     const PAGE_RATING_DETAIL = "23";
+    const PAGE_ALL_UPLOADERS = "80";
+    const PAGE_UPLOADER_DETAIL = "81";
 
     const COMPATIBILITY_XML_ALDIKO = "aldiko";
 
