@@ -596,44 +596,44 @@ class Page
                 return new PageAllAuthorsLetter ($id, $query, $n);
             case Base::PAGE_AUTHOR_DETAIL :
                 return new PageAuthorDetail ($id, $query, $n);
-            case Base::PAGE_ALL_TAGS :
-                return new PageAllTags ($id, $query, $n);
-            case Base::PAGE_TAG_DETAIL :
-                return new PageTagDetail ($id, $query, $n);
+            // case Base::PAGE_ALL_TAGS :
+            //     return new PageAllTags ($id, $query, $n);
+            // case Base::PAGE_TAG_DETAIL :
+            //     return new PageTagDetail ($id, $query, $n);
             case Base::PAGE_ALL_LANGUAGES :
                 return new PageAllLanguages ($id, $query, $n);
             case Base::PAGE_LANGUAGE_DETAIL :
                 return new PageLanguageDetail ($id, $query, $n);
-            case Base::PAGE_ALL_CUSTOMS :
-                return new PageAllCustoms ($id, $query, $n);
-            case Base::PAGE_CUSTOM_DETAIL :
-                return new PageCustomDetail ($id, $query, $n);
-            case Base::PAGE_ALL_RATINGS :
-                return new PageAllRating ($id, $query, $n);
-            case Base::PAGE_RATING_DETAIL :
-                return new PageRatingDetail ($id, $query, $n);
-            case Base::PAGE_ALL_SERIES :
-                return new PageAllSeries ($id, $query, $n);
+            // case Base::PAGE_ALL_CUSTOMS :
+            //     return new PageAllCustoms ($id, $query, $n);
+            // case Base::PAGE_CUSTOM_DETAIL :
+            //     return new PageCustomDetail ($id, $query, $n);
+            // case Base::PAGE_ALL_RATINGS :
+            //     return new PageAllRating ($id, $query, $n);
+            // case Base::PAGE_RATING_DETAIL :
+            //     return new PageRatingDetail ($id, $query, $n);
+            // case Base::PAGE_ALL_SERIES :
+            //     return new PageAllSeries ($id, $query, $n);
             case Base::PAGE_ALL_BOOKS :
                 return new PageAllBooks ($id, $query, $n);
             case Base::PAGE_ALL_BOOKS_LETTER:
                 return new PageAllBooksLetter ($id, $query, $n);
             case Base::PAGE_ALL_RECENT_BOOKS :
                 return new PageRecentBooks ($id, $query, $n);
-            case Base::PAGE_SERIE_DETAIL :
-                return new PageSerieDetail ($id, $query, $n);
+            // case Base::PAGE_SERIE_DETAIL :
+            //     return new PageSerieDetail ($id, $query, $n);
             case Base::PAGE_OPENSEARCH_QUERY :
                 return new PageQueryResult ($id, $query, $n);
             case Base::PAGE_BOOK_DETAIL :
                 return new PageBookDetail ($id, $query, $n);
-            case Base::PAGE_ALL_PUBLISHERS:
-                return new PageAllPublishers ($id, $query, $n);
-            case Base::PAGE_PUBLISHER_DETAIL :
-                return new PagePublisherDetail ($id, $query, $n);
+            // case Base::PAGE_ALL_PUBLISHERS:
+            //     return new PageAllPublishers ($id, $query, $n);
+            // case Base::PAGE_PUBLISHER_DETAIL :
+            //     return new PagePublisherDetail ($id, $query, $n);
             case Base::PAGE_ABOUT :
                 return new PageAbout ($id, $query, $n);
-            case Base::PAGE_CUSTOMIZE :
-                return new PageCustomize ($id, $query, $n);
+            // case Base::PAGE_CUSTOMIZE :
+            //     return new PageCustomize ($id, $query, $n);
             default:
                 $page = new Page ($id, $query, $n);
                 $page->idPage = "cops:catalog";
