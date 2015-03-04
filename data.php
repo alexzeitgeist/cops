@@ -15,6 +15,7 @@ class Data extends Base {
     public $id;
     public $name;
     public $format;
+    public $size;
     public $realFormat;
     public $extension;
     public $book;
@@ -59,6 +60,7 @@ class Data extends Base {
         $this->id = $post->id;
         $this->name = $post->name;
         $this->format = $post->format;
+        $this->size = self::formatBytes($post->size, 1);
         $this->realFormat = str_replace ("ORIGINAL_", "", $post->format);
         $this->extension = strtolower ($this->realFormat);
         $this->book = $book;
@@ -144,7 +146,7 @@ class Data extends Base {
 
     public static function getDataByBook ($book) {
         $out = array ();
-        $result = parent::getDb ()->prepare('select id, format, name
+        $result = parent::getDb ()->prepare('select id, format, uncompressed_size as size, name
                                              from data where book = ?');
         $result->execute (array ($book->id));
 
@@ -202,5 +204,17 @@ class Data extends Base {
         {
             return new Link (str_replace('%2F','/',rawurlencode ($book->path."/".$filename)), $mime, $rel, $title);
         }
+    }
+
+    public static function formatBytes ($bytes, $precision = 2)
+    {
+        $units = array('B', 'KB', 'MB', 'GB', 'TB');
+
+        $bytes = max($bytes, 0);
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, count($units) - 1);
+
+        $bytes /= pow(1024, $pow);
+        return round($bytes, $precision) . ' ' . $units[$pow];
     }
 }
