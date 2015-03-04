@@ -184,7 +184,8 @@ class JSONRenderer
                            "max_item_per_page" => $config['cops_max_item_per_page'],
                            "kindleHack"        => "",
                            "server_side_rendering" => useServerSideRendering (),
-                           "html_tag_filter" => $config['cops_html_tag_filter']));
+                           "html_tag_filter" => $config['cops_html_tag_filter'],
+                           "title_default" => $config['cops_title_default'],));
         if ($config['cops_thumbnail_handling'] == "1") {
             $out ["c"]["url"]["thumbnailUrl"] = $out ["c"]["url"]["coverUrl"];
         } else if (!empty ($config['cops_thumbnail_handling'])) {
