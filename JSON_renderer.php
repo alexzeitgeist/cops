@@ -243,17 +243,22 @@ class JSONRenderer
         $out ["entries"] = $entries;
         $out ["isPaginated"] = 0;
         if ($currentPage->isPaginated ()) {
-            $prevLink = $currentPage->getPrevLink ();
-            $nextLink = $currentPage->getNextLink ();
+            require_once 'resources/PHP-Pagination/Pagination.class.php';
+            $pagination = new Pagination();
+            $pagination->setCurrent((int) $currentPage->n);
+            $pagination->setTotal((int) $currentPage->totalNumber);
+            $pagination->setKey(n);
+            $pagination->setCrumbs(7);
+            $pagination->setNext('&raquo;');
+            $pagination->setPrevious('&laquo;');
+            $pagination->setRPP((int) $config['cops_max_item_per_page']);
+
+            $out ["pagination"] = $pagination->parse();
+            $out ["totalNumber"] = $currentPage->totalNumber;
+            $out ["fromEntry"] = (($currentPage->n -1) * 10) + 1;
+            $out ["toEntry"] = ($out ["fromEntry"] + 9) > $currentPage->totalNumber ? $currentPage->totalNumber : ($out ["fromEntry"] + 9);
+
             $out ["isPaginated"] = 1;
-            $out ["prevLink"] = "";
-            if (!is_null ($prevLink)) {
-                $out ["prevLink"] = $prevLink->hrefXhtml ();
-            }
-            $out ["nextLink"] = "";
-            if (!is_null ($nextLink)) {
-                $out ["nextLink"] = $nextLink->hrefXhtml ();
-            }
             $out ["maxPage"] = $currentPage->getMaxPage ();
             $out ["currentPage"] = $currentPage->n;
         }
