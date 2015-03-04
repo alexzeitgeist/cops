@@ -589,57 +589,36 @@ class Page
 
     public static function getPage ($pageId, $id, $query, $n)
     {
-        switch ($pageId) {
-            case Base::PAGE_ALL_AUTHORS :
-                return new PageAllAuthors ($id, $query, $n);
-            case Base::PAGE_AUTHORS_FIRST_LETTER :
-                return new PageAllAuthorsLetter ($id, $query, $n);
-            case Base::PAGE_AUTHOR_DETAIL :
-                return new PageAuthorDetail ($id, $query, $n);
-            // case Base::PAGE_ALL_TAGS :
-            //     return new PageAllTags ($id, $query, $n);
-            // case Base::PAGE_TAG_DETAIL :
-            //     return new PageTagDetail ($id, $query, $n);
-            case Base::PAGE_ALL_LANGUAGES :
-                return new PageAllLanguages ($id, $query, $n);
-            case Base::PAGE_LANGUAGE_DETAIL :
-                return new PageLanguageDetail ($id, $query, $n);
-            // case Base::PAGE_ALL_CUSTOMS :
-            //     return new PageAllCustoms ($id, $query, $n);
-            // case Base::PAGE_CUSTOM_DETAIL :
-            //     return new PageCustomDetail ($id, $query, $n);
-            // case Base::PAGE_ALL_RATINGS :
-            //     return new PageAllRating ($id, $query, $n);
-            // case Base::PAGE_RATING_DETAIL :
-            //     return new PageRatingDetail ($id, $query, $n);
-            // case Base::PAGE_ALL_SERIES :
-            //     return new PageAllSeries ($id, $query, $n);
-            case Base::PAGE_ALL_BOOKS :
-                return new PageAllBooks ($id, $query, $n);
-            case Base::PAGE_ALL_BOOKS_LETTER:
-                return new PageAllBooksLetter ($id, $query, $n);
-            case Base::PAGE_ALL_RECENT_BOOKS :
-                return new PageRecentBooks ($id, $query, $n);
-            // case Base::PAGE_SERIE_DETAIL :
-            //     return new PageSerieDetail ($id, $query, $n);
-            case Base::PAGE_OPENSEARCH_QUERY :
-                return new PageQueryResult ($id, $query, $n);
-            case Base::PAGE_BOOK_DETAIL :
-                return new PageBookDetail ($id, $query, $n);
-            // case Base::PAGE_ALL_PUBLISHERS:
-            //     return new PageAllPublishers ($id, $query, $n);
-            // case Base::PAGE_PUBLISHER_DETAIL :
-            //     return new PagePublisherDetail ($id, $query, $n);
-            case Base::PAGE_ABOUT :
-                return new PageAbout ($id, $query, $n);
-            // case Base::PAGE_CUSTOMIZE :
-            //     return new PageCustomize ($id, $query, $n);
-            case Base::PAGE_UPLOADER_DETAIL :
-                return new PageUploaderDetail ($id, $query, $n);
-            default:
-                $page = new Page ($id, $query, $n);
-                $page->idPage = "cops:catalog";
-                return $page;
+        static $allPages = array (base::PAGE_ALL_AUTHORS => 'PageAllAuthors',
+                                base::PAGE_AUTHORS_FIRST_LETTER => 'PageAllAuthorsLetter',
+                                base::PAGE_AUTHOR_DETAIL => 'PageAuthorDetail',
+                                base::PAGE_ALL_TAGS => false,
+                                base::PAGE_TAG_DETAIL => false,
+                                base::PAGE_ALL_LANGUAGES => 'PageAllLanguages',
+                                base::PAGE_LANGUAGE_DETAIL => 'PageLanguageDetail',
+                                base::PAGE_ALL_CUSTOMS => false,
+                                base::PAGE_CUSTOM_DETAIL => false,
+                                base::PAGE_ALL_RATINGS => false,
+                                base::PAGE_RATING_DETAIL => false,
+                                base::PAGE_ALL_SERIES => false,
+                                base::PAGE_SERIE_DETAIL => false,
+                                base::PAGE_ALL_BOOKS => 'PageAllBooks',
+                                base::PAGE_ALL_BOOKS_LETTER => 'PageAllBooksLetter',
+                                base::PAGE_ALL_RECENT_BOOKS => 'PageRecentBooks',
+                                base::PAGE_OPENSEARCH_QUERY => 'PageQueryResult',
+                                base::PAGE_BOOK_DETAIL => 'PageBookDetail',
+                                base::PAGE_ALL_PUBLISHERS => false,
+                                base::PAGE_PUBLISHER_DETAIL => false,
+                                base::PAGE_ABOUT => 'PageAbout',
+                                base::PAGE_CUSTOMIZE => false,
+                                base::PAGE_UPLOADER_DETAIL => 'PageUploaderDetail');
+
+        if (isset($allPages[$pageId]) && $allPages[$pageId] !== false) {
+            return new $allPages[$pageId] ($id, $query, $n);
+        } else {
+            $page = new Page ($id, $query, $n);
+            $page->idPage = "cops:catalog";
+            return $page;
         }
     }
 
