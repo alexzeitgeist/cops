@@ -55,6 +55,7 @@ class JSONRenderer
         $uploader = $book->getUploader ();
         if (is_null ($uploader)) {
             $mrun = "";
+            $mruu = "";
         } else {
             $mrun = $uploader->name;
             $link = new LinkNavigation ($uploader->getUri ());
