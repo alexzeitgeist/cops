@@ -16,7 +16,7 @@ class JSONRenderer
         $preferedData = array ();
         foreach ($config['cops_prefered_format'] as $format)
         {
-            if ($i == 2) { break; }
+            if (!empty($config['cops_max_formats_in_list']) && ($i == $config['cops_max_formats_in_list'])) { break; }
             if ($data = $book->getDataFormat ($format)) {
                 $i++;
                 array_push ($preferedData, array ("url" => $data->getHtmlLink (), "name" => $format, "size" => $data->size));
