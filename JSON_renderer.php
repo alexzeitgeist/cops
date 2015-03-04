@@ -214,7 +214,14 @@ class JSONRenderer
 
         $out = array ( "title" => $currentPage->title);
         $entries = array ();
+        $numbers = array();
+        $links = array();
         foreach ($currentPage->entryArray as $entry) {
+            if ($currentPage->idPage == 'cops:catalog') {
+                $id = str_replace('cops:', '', $entry->id);
+                $out['numbers'][$id] = $entry->numberOfElement;
+                $out['links'][$id] = $entry->getNavLink ();
+            }
             array_push ($entries, self::getContentArray ($entry));
         }
         if (!is_null ($currentPage->book)) {
