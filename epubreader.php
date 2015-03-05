@@ -11,6 +11,11 @@
 require('config.php');
 require('book.php');
 
+global $config;
+if (isset($config['cops_disable_built_in_reader']) && $config['cops_disable_built_in_reader'] == "1") {
+	die();
+}
+
 header ("Content-Type: text/html;charset=utf-8");
 
 $idData = getURLParam ("data", NULL);

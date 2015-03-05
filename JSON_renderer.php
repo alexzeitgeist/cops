@@ -104,7 +104,7 @@ class JSONRenderer
             if (!empty ($config['cops_mail_configuration']) && !is_null ($dataKindle) && $data->id == $dataKindle->id) {
                 $tab ["mail"] = 1;
             }
-            if ($data->format == "EPUB") {
+            if ($data->format == "EPUB" && !(isset($config['cops_disable_built_in_reader']) && $config['cops_disable_built_in_reader'] == "1")) {
                 $tab ["readerUrl"] = "epubreader.php?data={$data->id}&db={$database}";
             }
             array_push ($out ["datas"], $tab);
