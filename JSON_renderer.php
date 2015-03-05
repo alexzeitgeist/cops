@@ -127,6 +127,11 @@ class JSONRenderer
         if ($entry instanceof EntryBook) {
             $out = array ( "title" => $entry->title);
             $out ["book"] = self::getBookContentArray ($entry->book);
+            $out ["book"]["authors"] = array ();
+            foreach ($entry->book->getAuthors () as $author) {
+                $link = new LinkNavigation ($author->getUri ());
+                array_push ($out ["book"]["authors"], array ("name" => $author->name, "url" => $link->hrefXhtml ()));
+            }
             return $out;
         }
         return array ( "title" => $entry->title, "content" => $entry->content, "navlink" => $entry->getNavLink (), "number" => $entry->numberOfElement );
