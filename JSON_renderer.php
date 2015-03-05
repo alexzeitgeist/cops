@@ -175,7 +175,8 @@ class JSONRenderer
                            "sortorderDesc" => localize("search.sortorder.desc"),
                            "customizeEmail" => localize("customize.email"),
                            "uploaderTitle" => localize("uploader.title"),
-                           "lastUpdate" => localize("update.title")),
+                           "lastUpdate" => localize("update.title"),
+                           "formats" => localize("formats.title")),
                        "url" => array (
                            "detailUrl" => "index.php?page=13&id={0}&db={1}",
                            "coverUrl" => "fetch.php?id={0}&db={1}",
