@@ -100,7 +100,7 @@ class JSONRenderer
         $out ["datas"] = array ();
         $dataKindle = $book->GetMostInterestingDataToSendToKindle ();
         foreach ($book->getDatas() as $data) {
-            $tab = array ("id" => $data->id, "format" => $data->format, "url" => $data->getHtmlLink (), "mail" => 0, "readerUrl" => "");
+            $tab = array ("id" => $data->id, "format" => $data->format, "url" => $data->getHtmlLink (), "mail" => 0, "readerUrl" => "", "size" => $data->size);
             if (!empty ($config['cops_mail_configuration']) && !is_null ($dataKindle) && $data->id == $dataKindle->id) {
                 $tab ["mail"] = 1;
             }
