@@ -253,7 +253,7 @@ class JSONRenderer
             $pagination = new Pagination();
             $pagination->setCurrent((int) $currentPage->n);
             $pagination->setTotal((int) $currentPage->totalNumber);
-            $pagination->setKey(n);
+            $pagination->setKey('n');
             $pagination->setCrumbs(7);
             $pagination->setNext('&raquo;');
             $pagination->setPrevious('&laquo;');
