@@ -99,15 +99,17 @@ class JSONRenderer
         $out ["content"] = $book->getComment (false);
         $out ["datas"] = array ();
         $dataKindle = $book->GetMostInterestingDataToSendToKindle ();
-        foreach ($book->getDatas() as $data) {
-            $tab = array ("id" => $data->id, "format" => $data->format, "url" => $data->getHtmlLink (), "mail" => 0, "readerUrl" => "", "size" => $data->size);
-            if (!empty ($config['cops_mail_configuration']) && !is_null ($dataKindle) && $data->id == $dataKindle->id) {
-                $tab ["mail"] = 1;
+        foreach ($config['cops_prefered_format'] as $format)
+        {
+            if ($data = $book->getDataFormat ($format)) {
+                if (!empty ($config['cops_mail_configuration']) && !is_null ($dataKindle) && $data->id == $dataKindle->id) {
+                    $data ["mail"] = 1;
+                }
+                if ($data->format == "EPUB" && !(isset($config['cops_disable_built_in_reader']) && $config['cops_disable_built_in_reader'] == "1")) {
+                    $data ["readerUrl"] = "epubreader.php?data={$data->id}&db={$database}";
+                }
+                array_push ($out ["datas"], array ("id" => $data->id, "format" => $data->format, "url" => $data->getHtmlLink (), "mail" => 0, "readerUrl" => "", "size" => $data->size));
             }
-            if ($data->format == "EPUB" && !(isset($config['cops_disable_built_in_reader']) && $config['cops_disable_built_in_reader'] == "1")) {
-                $tab ["readerUrl"] = "epubreader.php?data={$data->id}&db={$database}";
-            }
-            array_push ($out ["datas"], $tab);
         }
         $out ["authors"] = array ();
         foreach ($book->getAuthors () as $author) {
