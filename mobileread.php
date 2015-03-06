@@ -88,6 +88,28 @@ where books_custom_column_4_link.book = ?');
         }
         return NULL;
     }
+
+    public static function getCount() {
+        return parent::getCountGeneric ("custom_column_4", self::ALL_UPLOADERS_ID, parent::PAGE_ALL_UPLOADERS);
+    }
+
+    public static function getAllUploaders() {
+        $result = parent::getDb ()->query('select custom_column_4.id, custom_column_4.value as name, count(*) as count
+from books_custom_column_4_link
+join custom_column_4 on custom_column_4.id = books_custom_column_4_link.value
+group by custom_column_4.id, custom_column_4.value
+order by custom_column_4.value');
+        $entryArray = array();
+        while ($post = $result->fetchObject ())
+        {
+            $uploader = new MobileReadUploader ($post);
+            array_push ($entryArray, new Entry ($uploader->name, $uploader->getEntryId (),
+                str_format (localize("bookword", $post->count), $post->count), "text",
+                array ( new LinkNavigation ($uploader->getUri ())), "", $post->count));
+        }
+        return $entryArray;
+    }
+
 }
 
 class MobileReadVariant extends Base {

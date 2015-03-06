@@ -611,6 +611,7 @@ class Page
                                 base::PAGE_PUBLISHER_DETAIL => false,
                                 base::PAGE_ABOUT => 'PageAbout',
                                 base::PAGE_CUSTOMIZE => false,
+                                base::PAGE_ALL_UPLOADERS => 'PageAllUploaders',
                                 base::PAGE_UPLOADER_DETAIL => 'PageUploaderDetail');
 
         if (isset($allPages[$pageId]) && $allPages[$pageId] !== false) {
@@ -679,6 +680,8 @@ class Page
                     array_push ($this->entryArray, CustomColumn::getCount($customId));
                 }
             }
+            $uploaders = MobileReadUploader::getCount();
+            if (!is_null ($uploaders)) array_push ($this->entryArray, $uploaders);
             $this->entryArray = array_merge ($this->entryArray, Book::getCount());
 
             if (Base::isMultipleDatabaseEnabled ()) $this->title =  Base::getDbName ();
@@ -1201,6 +1204,16 @@ class PageUploaderDetail extends Page
         $this->idPage = $uploader->getEntryId ();
         $this->title = str_format (localize ("bookentry.uploader"), localize ("uploads.title"), $uploader->name);
         list ($this->entryArray, $this->totalNumber) = Book::getBooksByUploader ($this->idGet, $this->n);
+    }
+}
+
+class PageAllUploaders extends Page
+{
+    public function InitializeContent ()
+    {
+        $this->idPage = MobileReadUploader::ALL_UPLOADERS_ID;
+        $this->entryArray = MobileReadUploader::getAllUploaders();
+        $this->title = str_format (localize ("uploadersword", count ($this->entryArray)), count ($this->entryArray));
     }
 }
 
