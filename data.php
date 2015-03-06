@@ -158,7 +158,7 @@ class Data extends Base {
 
         while ($post = $result->fetchObject ())
         {
-            array_push ($out, new Data ($post, $book));
+            $out[$post->format] = new Data ($post, $book);
         }
         return $out;
     }

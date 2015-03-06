@@ -343,10 +343,12 @@ class Book extends Base {
     }
 
     public function getDataFormat ($format) {
-        $reduced = array_filter ($this->getDatas (), function ($data) use ($format) {
-            return $data->format == $format;
-        });
-        return reset ($reduced);
+        $data = $this->getDatas ();
+        if (isset($data[$format])) {
+            return $data[$format];
+        } else {
+            return false;
+        }
     }
 
     public function getFilePath ($extension, $idData = NULL, $relative = false)
