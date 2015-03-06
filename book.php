@@ -172,15 +172,11 @@ class Book extends Base {
     }
 
     public function getLanguages () {
+        if (is_null ($this->languages)) {
+            $this->languages = Language::getLanguagesByBookId ($this->id);
+        }
         $lang = array ();
-        $result = parent::getDb ()->prepare('select languages.lang_code
-                from books_languages_link, languages
-                where books_languages_link.lang_code = languages.id
-                and book = ?
-                order by item_order');
-        $result->execute (array ($this->id));
-        while ($post = $result->fetchObject ())
-        {
+        foreach ($this->languages as $post) {
             array_push ($lang, Language::getLanguageString($post->lang_code));
         }
         return implode (", ", $lang);
@@ -257,6 +253,13 @@ class Book extends Base {
             $this->lastUpdate = MobileReadLastUpdate::getLastUpdateByBookId ($this->id);
         }
         return $this->lastUpdate;
+    }
+
+    public function getLanguagesArray () {
+        if (is_null ($this->languages)) {
+            $this->getLanguages ();
+        }
+        return $this->languages;
     }
 
     /* End of other class (author, series, tag, ...) initialization and accessors */

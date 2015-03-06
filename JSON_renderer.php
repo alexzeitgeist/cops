@@ -69,6 +69,12 @@ class JSONRenderer
             $mrlun = date ("d M Y", strtotime ($update->name));
         }
 
+        $languages = array ();
+        foreach ($book->getLanguagesArray () as $language) {
+            $link = new LinkNavigation ($language->getUri ());
+            array_push ($languages, array ("langCode" => $language->lang_code, "languageName" => Language::getLanguageString($language->lang_code), "url" => $link->hrefXhtml ()));
+        }
+
         return array ("id" => $book->id,
                       "hasCover" => $book->hasCover,
                       "preferedData" => $preferedData,
@@ -86,7 +92,8 @@ class JSONRenderer
                       "variant" => $mrvn,
                       "uploader" => $mrun,
                       "uploaderurl" => $mruu,
-                      "lastUpdate" => $mrlun);
+                      "lastUpdate" => $mrlun,
+                      "languages" => $languages);
     }
 
     public static function getFullBookContentArray ($book) {

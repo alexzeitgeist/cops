@@ -52,7 +52,19 @@ class language extends Base {
         return NULL;
     }
 
-
+    public static function getLanguagesByBookId ($bookId) {
+        $result = parent::getDb ()->prepare('select languages.lang_code, languages.id
+from books_languages_link, languages
+where books_languages_link.lang_code = languages.id
+and book = ?
+order by item_order');
+        $result->execute (array ($bookId));
+        $languageArray = array ();
+        while ($post = $result->fetchObject ()) {
+            array_push ($languageArray, new Language ($post->id, $post->lang_code));
+        }
+        return $languageArray;
+    }
 
     public static function getAllLanguages() {
         $result = parent::getDb ()->query('select languages.id as id, languages.lang_code as lang_code, count(*) as count
