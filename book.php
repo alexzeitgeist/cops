@@ -555,7 +555,7 @@ where books.id = ?');
     }
 
     public static function getBookByDataId($dataId) {
-        $result = parent::getDb ()->prepare('select ' . self::BOOK_COLUMNS . ', data.name, data.format
+        $result = parent::getDb ()->prepare('select ' . self::BOOK_COLUMNS . ', data.name, data.format, data.uncompressed_size as size
 from data, books ' . self::SQL_BOOKS_LEFT_JOIN . '
 where data.book = books.id and data.id = ?');
         $result->execute (array ($dataId));
