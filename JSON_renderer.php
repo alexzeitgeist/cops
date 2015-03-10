@@ -72,7 +72,7 @@ class JSONRenderer
         $languages = array ();
         foreach ($book->getLanguagesArray () as $language) {
             $link = new LinkNavigation ($language->getUri ());
-            array_push ($languages, array ("langCode" => $language->lang_code, "languageName" => Language::getLanguageString($language->lang_code), "url" => $link->hrefXhtml ()));
+            array_push ($languages, array ("langCode" => $language->lang_code, "languageName" => $language->print_name, "url" => $link->hrefXhtml ()));
         }
 
         return array ("id" => $book->id,

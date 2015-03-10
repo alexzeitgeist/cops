@@ -843,7 +843,7 @@ class PageLanguageDetail extends Page
     {
         $language = Language::getLanguageById ($this->idGet);
         $this->idPage = $language->getEntryId ();
-        $this->title = $language->lang_code;
+        $this->title = $language->print_name;
         list ($this->entryArray, $this->totalNumber) = Book::getBooksByLanguage ($this->idGet, $this->n);
     }
 }

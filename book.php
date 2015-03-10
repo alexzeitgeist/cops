@@ -177,7 +177,7 @@ class Book extends Base {
         }
         $lang = array ();
         foreach ($this->languages as $post) {
-            array_push ($lang, Language::getLanguageString($post->lang_code));
+            array_push ($lang, $post->print_name);
         }
         return implode (", ", $lang);
     }
