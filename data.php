@@ -102,6 +102,10 @@ class Data extends Base {
         return $this->name . "." . strtolower ($this->format);
     }
 
+    public function getNormalizedFilename () {
+        return 'mobileread_book_' . $this->book->id . "." . strtolower ($this->format);
+    }
+
     public function getUpdatedFilename () {
         return $this->book->getAuthorsSort () . " - " . $this->book->title;
     }
@@ -138,14 +142,14 @@ class Data extends Base {
         $database = "";
         if (!is_null (GetUrlParam (DB))) $database = GetUrlParam (DB) . "/";
 
-        $href = "download/" . $this->id . "/" . $database;
+        $href = "/books/" . $this->id . "/" . $database;
 
         if ($config['cops_provide_kepub'] == "1" &&
             $this->isEpubValidOnKobo () &&
             preg_match("/Kobo/", $_SERVER['HTTP_USER_AGENT'])) {
             $href .= rawurlencode ($this->getUpdatedFilenameKepub ());
         } else {
-            $href .= rawurlencode ($this->getFilename ());
+            $href .= rawurlencode ($this->getNormalizedFilename ());
         }
         return new Link ($href, $this->getMimeType (), Link::OPDS_ACQUISITION_TYPE, $title);
     }
