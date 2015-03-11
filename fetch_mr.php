@@ -81,6 +81,14 @@ switch ($type)
         deliver_asset($image_cache_file, 'image/jpeg', $config['cops_image_client_cache_age']);
         break;
 
+	case 'epub':
+        if ($config['cops_provide_kepub'] === "1" && strpos($_SERVER['HTTP_USER_AGENT'], 'Kobo') !== false)
+        {
+            $type = 'kepub.epub';
+        }
+        deliver_asset($file, $data->getMimeType(), $config['cops_attachment_client_cache_age'], $config['cops_attachment_basename'] . $book->id . '.' . $type);
+        break;
+
     case 'imp-1200':
         $type = 'imp';
         deliver_asset($file, $data->getMimeType(), $config['cops_attachment_client_cache_age'], $config['cops_attachment_basename'] . $book->id . '.' . $type);

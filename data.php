@@ -147,13 +147,8 @@ class Data extends Base {
 
         $href = "/books/" . $this->id . "/" . $database;
 
-        if ($config['cops_provide_kepub'] == "1" &&
-            $this->isEpubValidOnKobo () &&
-            preg_match("/Kobo/", $_SERVER['HTTP_USER_AGENT'])) {
-            $href .= rawurlencode ($this->getUpdatedFilenameKepub ());
-        } else {
-            $href .= rawurlencode ($this->getNormalizedFilename ());
-        }
+        $href .= rawurlencode ($this->getNormalizedFilename ());
+
         return new Link ($href, $this->getMimeType (), Link::OPDS_ACQUISITION_TYPE, $title);
     }
 
