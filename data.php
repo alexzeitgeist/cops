@@ -104,7 +104,9 @@ class Data extends Base {
     }
 
     public function getNormalizedFilename () {
-        return 'mobileread_book_' . $this->book->id . "." . strtolower ($this->format);
+        global $config;
+
+        return $config['cops_attachment_basename'] . $this->book->id . "." . strtolower ($this->format);
     }
 
     public function getUpdatedFilename () {
