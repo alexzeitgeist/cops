@@ -101,8 +101,8 @@ class JSONRenderer
         $out = self::getBookContentArray ($book);
         $database = GetUrlParam (DB);
 
-        $out ["coverurl"] = Data::getLink ($book, "jpg", "image/jpeg", Link::OPDS_IMAGE_TYPE, "cover.jpg", NULL)->hrefXhtml ();
-        $out ["thumbnailurl"] = Data::getLink ($book, "jpg", "image/jpeg", Link::OPDS_THUMBNAIL_TYPE, "cover.jpg", NULL, NULL, $config['cops_html_thumbnail_height'] * 2)->hrefXhtml ();
+        $out ["coverurl"] = Data::getLinkMR ($book, "jpg", "image/jpeg", Link::OPDS_IMAGE_TYPE, "cover.jpg", NULL)->hrefXhtml ();
+        $out ["thumbnailurl"] = Data::getLinkMR ($book, "jpg", "image/jpeg", Link::OPDS_THUMBNAIL_TYPE, "cover.jpg", NULL, NULL, $config['cops_html_thumbnail_height'] * 2)->hrefXhtml ();
         $out ["content"] = $book->getComment (false);
         $out ["datas"] = array ();
         $dataKindle = $book->GetMostInterestingDataToSendToKindle ();
@@ -193,9 +193,11 @@ class JSONRenderer
                            "formats" => localize("formats.title")),
                        "url" => array (
                            "detailUrl" => "index.php?page=13&id={0}&db={1}",
-                           "coverUrl" => "fetch.php?id={0}&db={1}",
-                           "thumbnailUrl" => "fetch.php?height=" . $config['cops_html_thumbnail_height'] . "&id={0}&db={1}"),
+                           "coverUrl" => "/covers/cover-{0}-" . $config['cops_image_dimensions']['cover']['web']['width'] . "x" . $config['cops_image_dimensions']['cover']['web']['height'] . ".jpg",
+                           "thumbnailUrl" => "/covers/tn-{0}-" . $config['cops_image_dimensions']['tn']['web']['width'] . "x" . $config['cops_image_dimensions']['tn']['web']['height'] . ".jpg"),
                        "config" => array (
+                           "thumbnailWidth" => $config['cops_image_dimensions']['tn']['web']['width'],
+                           "thumbnailHeight" => $config['cops_image_dimensions']['tn']['web']['height'],
                            "use_fancyapps" => $config ["cops_use_fancyapps"],
                            "max_item_per_page" => $config['cops_max_item_per_page'],
                            "kindleHack"        => "",

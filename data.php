@@ -182,6 +182,34 @@ class Data extends Base {
         return $urlParam;
     }
 
+    public static function handleImageLink ($type, $book) {
+        global $config;
+
+        if (basename($_SERVER['SCRIPT_NAME']) === 'feed.php')
+        {
+            $filename = "$type-" . $book->id . "-" . $config['cops_image_dimensions'][$type]['feed']['width'] . "x" . $config['cops_image_dimensions'][$type]['feed']['height'] . ".jpg";
+        }
+        else
+        {
+            $filename = "$type-" . $book->id . "-" . $config['cops_image_dimensions'][$type]['web']['width'] . "x" . $config['cops_image_dimensions'][$type]['web']['height'] . ".jpg";
+        }
+
+        return $filename;
+    }
+
+    public static function getLinkMR ($book, $type, $mime, $rel, $filename, $idData, $title = NULL, $height = NULL)
+    {
+        global $config;
+
+        if ($rel == Link::OPDS_THUMBNAIL_TYPE) {
+            $filename = self::handleImageLink('tn', $book);
+        } else {
+            $filename = self::handleImageLink('cover', $book);
+        }
+
+        return new Link ("/covers/" . $filename, $mime, $rel, $title);
+    }
+
     public static function getLink ($book, $type, $mime, $rel, $filename, $idData, $title = NULL, $height = NULL)
     {
         global $config;

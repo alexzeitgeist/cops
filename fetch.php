@@ -6,6 +6,8 @@
  * @author     Sébastien Lucas <sebastien@slucas.fr>
  */
 
+    die();
+
     require('config.php');
     require('book.php');
 
