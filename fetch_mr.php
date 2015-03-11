@@ -37,11 +37,11 @@ if ($book === null OR !($book instanceof Book))
     send_not_found();
 }
 
+$file = NULL;
 switch ($type)
 {
     case 'tn':
     case 'cover':
-        $file = NULL;
         foreach ($config['cops_image_dimensions'][$type] as $dimension)
         {
             if ((isset($height) && $dimension['height'] == $height) && (isset($width) && $dimension['width'] == $width))
@@ -53,8 +53,11 @@ switch ($type)
         break;
 
     default:
-        $file = $book->getFilePath($type, $idData);
         $data = $book->getDataById($idData);
+        if (strtolower($data->format) === $type)
+        {
+            $file = $book->getFilePath($type, $idData);
+        }
         break;
 }
 
