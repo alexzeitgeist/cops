@@ -133,11 +133,29 @@ class JSONRenderer
     }
 
     public static function getContentArray ($entry) {
+        global $config;
+
         if ($entry instanceof EntryBook) {
             $out = array ( "title" => $entry->title);
             $out ["book"] = self::getBookContentArray ($entry->book);
             $out ["book"]["authors"] = array ();
+
+            $i = 0;
+            $out ["book"]["MoreAuthors"] = "";
+            if (!empty($config['cops_authors_outer_limit'])) {
+                $count = count($entry->book->getAuthors ());
+                if ($count > $config['cops_authors_outer_limit']) {
+                    $limit = $config['cops_authors_inner_limit'];
+                }
+            }
+
             foreach ($entry->book->getAuthors () as $author) {
+                if (isset($limit) && $i == $limit) {
+                    $out ["book"]["MoreAuthors"] = "1";
+                    break;
+                }
+
+                $i++;
                 $link = new LinkNavigation ($author->getUri ());
                 array_push ($out ["book"]["authors"], array ("name" => $author->name, "url" => $link->hrefXhtml ()));
             }
@@ -190,7 +208,9 @@ class JSONRenderer
                            "customizeEmail" => localize("customize.email"),
                            "uploaderTitle" => localize("uploader.title"),
                            "lastUpdate" => localize("update.title"),
-                           "formats" => localize("formats.title")),
+                           "formats" => localize("formats.title"),
+                           "authorsOthers" => localize("authors.others"),
+                           "authorsAll" => localize("authors.all")),
                        "url" => array (
                            "detailUrl" => "index.php?page=13&id={0}&db={1}",
                            "coverUrl" => "/covers/cover-{0}-" . $config['cops_image_dimensions']['cover']['web']['width'] . "x" . $config['cops_image_dimensions']['cover']['web']['height'] . ".jpg",
