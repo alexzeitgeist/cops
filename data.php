@@ -37,6 +37,7 @@ class Data extends Base {
         'gz'    => 'application/x-gzip',
         'ibooks'=> 'application/x-ibooks+zip',
         'imp'   => 'application/x-softbook',
+        'imp-1200'   => 'application/x-softbook',
         'kepub' => 'application/epub+zip',
         'kobo'  => 'application/x-koboreader-ebook',
         'mobi'  => 'application/x-mobipocket-ebook',
