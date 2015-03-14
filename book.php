@@ -454,9 +454,9 @@ class Book extends Base {
 
         if ($this->hasCover)
         {
-            array_push ($linkArray, Data::getLinkMR ($this, "jpg", "image/jpeg", Link::OPDS_IMAGE_TYPE, "cover.jpg", NULL));
+            array_push ($linkArray, Data::getLinkMR ($this, "jpg", "image/jpeg", Link::OPDS_IMAGE_TYPE, "cover.jpg", NULL, NULL, 'booklist', NULL));
 
-            array_push ($linkArray, Data::getLinkMR ($this, "jpg", "image/jpeg", Link::OPDS_THUMBNAIL_TYPE, "cover.jpg", NULL));
+            array_push ($linkArray, Data::getLinkMR ($this, "jpg", "image/jpeg", Link::OPDS_THUMBNAIL_TYPE, "cover.jpg", NULL, NULL, 'booklist', NULL));
         }
 
         foreach ($this->getDatas () as $data)

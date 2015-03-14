@@ -101,8 +101,8 @@ class JSONRenderer
         $out = self::getBookContentArray ($book);
         $database = GetUrlParam (DB);
 
-        $out ["coverurl"] = Data::getLinkMR ($book, "jpg", "image/jpeg", Link::OPDS_IMAGE_TYPE, "cover.jpg", NULL)->hrefXhtml ();
-        $out ["thumbnailurl"] = Data::getLinkMR ($book, "jpg", "image/jpeg", Link::OPDS_THUMBNAIL_TYPE, "cover.jpg", NULL, NULL, $config['cops_html_thumbnail_height'] * 2)->hrefXhtml ();
+        $out ["coverurl"] = Data::getLinkMR ($book, "jpg", "image/jpeg", Link::OPDS_IMAGE_TYPE, "cover.jpg", NULL, NULL, 'bookview', NULL)->hrefXhtml ();
+        $out ["thumbnailurl"] = Data::getLinkMR ($book, "jpg", "image/jpeg", Link::OPDS_THUMBNAIL_TYPE, "cover.jpg", NULL, NULL, 'bookview', 'sy')->hrefXhtml ();
         $out ["content"] = $book->getComment (false);
         $out ["datas"] = array ();
         $dataKindle = $book->GetMostInterestingDataToSendToKindle ();
@@ -213,11 +213,10 @@ class JSONRenderer
                            "authorsAll" => localize("authors.all")),
                        "url" => array (
                            "detailUrl" => "index.php?page=13&id={0}&db={1}",
-                           "coverUrl" => "/covers/cover-{0}-" . $config['cops_image_dimensions']['cover']['web']['width'] . "x" . $config['cops_image_dimensions']['cover']['web']['height'] . ".jpg",
-                           "thumbnailUrl" => "/covers/tn-{0}-" . $config['cops_image_dimensions']['tn']['web']['width'] . "x" . $config['cops_image_dimensions']['tn']['web']['height'] . ".jpg"),
+                           "coverUrl" => "/covers/cover-{0}-" . $config['cops_images']['booklist']['cover']['web']['width'] . "x" . $config['cops_images']['booklist']['cover']['web']['height'] . ".jpg",
+                           "thumbnailUrl" => "/covers/tn-{0}_sx" . $config['cops_images']['booklist']['tn']['web']['width'] . "_.jpg"),
                        "config" => array (
-                           "thumbnailWidth" => $config['cops_image_dimensions']['tn']['web']['width'],
-                           "thumbnailHeight" => $config['cops_image_dimensions']['tn']['web']['height'],
+                           "imageDimensions" => $config['cops_images'],
                            "use_fancyapps" => $config ["cops_use_fancyapps"],
                            "max_item_per_page" => $config['cops_max_item_per_page'],
                            "kindleHack"        => "",

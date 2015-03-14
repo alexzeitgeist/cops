@@ -184,29 +184,36 @@ class Data extends Base {
         return $urlParam;
     }
 
-    public static function handleImageLink ($type, $book) {
+    public static function handleImageLink ($type, $book, $location, $scale = NULL) {
         global $config;
 
-        if (basename($_SERVER['SCRIPT_NAME']) === 'feed.php')
+        $context = (basename($_SERVER['SCRIPT_NAME']) === 'feed.php') ? 'feed' : 'web';
+
+        if ($scale === 'sx')
         {
-            $filename = "$type-" . $book->id . "-" . $config['cops_image_dimensions'][$type]['feed']['width'] . "x" . $config['cops_image_dimensions'][$type]['feed']['height'] . ".jpg";
+            $size = $scale . $config['cops_images'][$location][$type][$context]['width'];
+        }
+        elseif ($scale === 'sy')
+        {
+
+            $size = $scale . $config['cops_images'][$location][$type][$context]['height'];
         }
         else
         {
-            $filename = "$type-" . $book->id . "-" . $config['cops_image_dimensions'][$type]['web']['width'] . "x" . $config['cops_image_dimensions'][$type]['web']['height'] . ".jpg";
+            $size = $config['cops_images'][$location][$type][$context]['width'] . 'x' . $config['cops_images'][$location][$type][$context]['height'];
         }
 
-        return $filename;
+        return "$type-" . $book->id . "_" . $size . "_.jpg";
     }
 
-    public static function getLinkMR ($book, $type, $mime, $rel, $filename, $idData, $title = NULL, $height = NULL)
+    public static function getLinkMR ($book, $type, $mime, $rel, $filename, $idData, $title = NULL, $location = NULL, $scale = NULL)
     {
         global $config;
 
         if ($rel == Link::OPDS_THUMBNAIL_TYPE) {
-            $filename = self::handleImageLink('tn', $book);
+            $filename = self::handleImageLink('tn', $book, $location, $scale);
         } else {
-            $filename = self::handleImageLink('cover', $book);
+            $filename = self::handleImageLink('cover', $book, $location, $scale);
         }
 
         return new Link ("/covers/" . $filename, $mime, $rel, $title);

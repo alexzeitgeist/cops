@@ -23,6 +23,9 @@ $idData = getURLParam('data', NULL);
 $height = getURLParam('height', NULL);
 $width = getURLParam('width', NULL);
 
+$height = $height === NULL ? NULL : (int) $height;
+$width = $width === NULL ? NULL : (int) $width;
+
 if ($bookId === null)
 {
     $book = Book::getBookByDataId($idData);
@@ -38,16 +41,22 @@ if ($book === null OR !($book instanceof Book))
 }
 
 $file = NULL;
+$is_image = false;
+
 switch ($type)
 {
     case 'tn':
     case 'cover':
-        foreach ($config['cops_image_dimensions'][$type] as $dimension)
+        foreach ($config['cops_images'] as $locations)
         {
-            if ((isset($height) && $dimension['height'] == $height) && (isset($width) && $dimension['width'] == $width))
+            foreach ($locations[$type] as $dimension)
             {
-                $file = $book->getFilePath('jpg');
-                break;
+                if (($height === NULL || $dimension['height'] === $height) && ($width === NULL || $dimension['width'] === $width))
+                {
+                    $file = $book->getFilePath('jpg');
+                    $is_image = true;
+                    break;
+                }
             }
         }
         break;
@@ -66,40 +75,51 @@ if ($file === null || !file_exists ($file))
     send_not_found();
 }
 
+if ($is_image)
+{
+    include_once('resources/Image/Image.php');
+    require('resources/Image/vendor/autoload.php');
+}
+
 switch ($type)
 {
     case 'tn':
-    case 'cover':
-        include_once('resources/Image/Image.php');
-        require('resources/Image/vendor/autoload.php');
-
         $image_cache_file = Image::open($file)->setActualCacheDir($config['cops_image_cache_path'])
                                               ->setCacheDir($config['cops_image_cache_nginx_location'])
-                                              ->scaleResize((int) $width, (int) $height, 'black')
+                                              ->scaleResize($width, $height)
                                               ->jpeg(75);
-
-        deliver_asset($image_cache_file, 'image/jpeg', $config['cops_image_client_cache_age']);
         break;
 
-	case 'epub':
+    case 'cover':
+        $image_cache_file = Image::open($file)->setActualCacheDir($config['cops_image_cache_path'])
+                                              ->setCacheDir($config['cops_image_cache_nginx_location'])
+                                              ->cropResize($width, $height)
+                                              ->jpeg(75);
+        break;
+
+    case 'epub':
         if ($config['cops_provide_kepub'] === "1" && strpos($_SERVER['HTTP_USER_AGENT'], 'Kobo') !== false)
         {
             $type = 'kepub.epub';
         }
-        deliver_asset($file, $data->getMimeType(), $config['cops_attachment_client_cache_age'], $config['cops_attachment_basename'] . $book->id . '.' . $type);
         break;
 
     case 'imp-1200':
         $type = 'imp';
-        deliver_asset($file, $data->getMimeType(), $config['cops_attachment_client_cache_age'], $config['cops_attachment_basename'] . $book->id . '.' . $type);
         break;
 
     default:
-        deliver_asset($file, $data->getMimeType(), $config['cops_attachment_client_cache_age'], $config['cops_attachment_basename'] . $book->id . '.' . $type);
         break;
 }
 
-send_not_found();
+if ($is_image)
+{
+    deliver_asset($image_cache_file, 'image/jpeg', $config['cops_image_client_cache_age']);
+}
+else
+{
+    deliver_asset($file, $data->getMimeType(), $config['cops_attachment_client_cache_age'], $config['cops_attachment_basename'] . $book->id . '.' . $type);
+}
 
 function deliver_asset($file, $mime, $age, $attachment = NULL)
 {
