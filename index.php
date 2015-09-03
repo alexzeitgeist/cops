@@ -45,6 +45,8 @@
                   "server_side_rendering" => useServerSideRendering (),
                   "current_css"           => getCurrentCss (),
                   "favico"                => $config['cops_icon'],
+                  "userInfo"              => $userInfo,
+                  "token"                 => $token,
                   "getjson_url"           => "getJSON.php?" . addURLParameter (getQueryString (), "complete", 1));
     if (preg_match("/Kindle/", $_SERVER['HTTP_USER_AGENT'])) {
         $data ["customHeader"] = '<style media="screen" type="text/css"> html { font-size: 75%; -webkit-text-size-adjust: 75%; -ms-text-size-adjust: 75%; }</style>';

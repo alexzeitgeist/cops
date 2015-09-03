@@ -235,7 +235,7 @@ class JSONRenderer
     }
 
     public static function getJson ($complete = false) {
-        global $config;
+        global $config, $userInfo, $token;
         $page = getURLParam ("page", Base::PAGE_INDEX);
         $query = getURLParam ("query");
         $search = getURLParam ("search");
@@ -251,6 +251,10 @@ class JSONRenderer
         }
 
         $out = array ( "title" => $currentPage->title);
+
+        $out ["userInfo"] = $userInfo;
+        $out ["token"] = $token;
+
         $entries = array ();
         $numbers = array();
         $links = array();
