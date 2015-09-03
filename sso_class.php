@@ -44,6 +44,7 @@ class SSO
 
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
 		curl_setopt($ch, CURLOPT_SSLVERSION, 'CURL_SSLVERSION_TLSv1_2');
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
 		curl_setopt($ch, CURLOPT_URL, $this->_loginEndpoint);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $this->_headers);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
@@ -53,8 +54,10 @@ class SSO
 
 		if (curl_errno($ch))
 		{
+			$error = 'Error: ' . curl_error($ch);
 			curl_close($ch);
-			return 'Error: ' . curl_error($ch);
+
+			return $error;
 		}
 
 		curl_close($ch);
