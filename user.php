@@ -55,7 +55,7 @@ else if ($_REQUEST['do'] === 'logout')
 
 	$suppliedToken = isset($_SERVER['HTTP_X_CSRF_TOKEN']) ? $_SERVER['HTTP_X_CSRF_TOKEN'] : false;
 
-	if ($token === $suppliedToken)
+	if ($session->isValidToken($suppliedToken))
 	{
 		$session->destroy();
 

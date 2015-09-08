@@ -62,7 +62,7 @@ class Session
 
 	public function setToken()
 	{
-		$token = sha1(uniqid(rand(), true));
+		$token = $this->_randomBytes(16);
 		$_SESSION['_token'] = $token;
 	}
 
@@ -70,12 +70,35 @@ class Session
 	{
 		$token = isset($_SESSION['_token']) ? $_SESSION['_token'] : false;
 
+		if ($token !== false)
+		{
+
+			$pad = $this->_randomBytes(strlen($token));
+			$xor = $this->_xorPad($pad, $token);
+			$token = $pad . bin2hex($xor);
+		}
+
 		return $token;
 	}
 
 	public function isValidToken($token)
 	{
-		return $_SESSION['_token'] === $token;
+		$session_token = isset($_SESSION['_token']) ? $_SESSION['_token'] : false;
+
+		if ($session_token === false)
+		{
+			return false;
+		}
+
+		$token_length = strlen($session_token);
+
+		$pad = substr($token, 0, $token_length);
+		$xor = substr($token, $token_length);
+		$xor = hex2bin($xor);
+
+		$token = $this->_xorPad($xor, $token);
+
+		return $session_token === $token;
 	}
 
 	public function isValidSession($ttl = 30, $fingerprint = true)
@@ -173,5 +196,45 @@ class Session
 		$final = inet_ntop($in_addr & $mask);
 
 		return str_replace(array(':0', '.0'), array(':x', '.x'), $final);
+	}
+
+	private function _randomBytes($length, $raw = false)
+	{
+		$rlen = $raw ? $length : ceil($length / 2);
+		$random = openssl_random_pseudo_bytes($rlen);
+
+		if ($raw)
+		{
+			return $random;
+		}
+
+		$random = bin2hex($random);
+
+		if ($length < strlen($random))
+		{
+			$random = substr($random, 0, $length);
+		}
+
+		return $random;
+	}
+
+	private function _xorPad($string, $key)
+	{
+		$result = '';
+		$size = strlen($string);
+		$key_size = strlen($key);
+		$n = 0;
+
+		for ($i = 0; $i < $size; $i++)
+		{
+			if ($n >= $key_size)
+			{
+				$n = 0;
+			}
+
+			$result .= chr(ord($string[$i]) ^ ord($key[$n++]));
+		}
+
+		return $result;
 	}
 }
